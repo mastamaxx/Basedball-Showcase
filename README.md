@@ -23,7 +23,7 @@ I've been obsessed with baseball since I was a kid. In 2020 I built the first ve
 
 The problem was time. Every day meant downloading files, rebuilding the inputs and running the sim by hand, for bets that were never big enough to make that worthwhile. I shelved it in April 2024.
 
-In 2026 I rebuilt it from scratch with two goals: it should run on its own, and every piece of it should be tested. The old simulator ran on fixed rules, like pulling the starter at a batters-faced target or always scoring a runner from second on a single. Each of those rules is now a model fitted on real play-by-play, and each one had to prove it made the predictions better before it went in. The rebuild also turned up bugs I'd been living with for years: a stolen base left a copy of the runner on first, and a starter who threw a complete game could never get the win.
+In 2026 I rebuilt it from scratch with two goals: it should run on its own, and every piece of it should be tested. The old simulator ran on fixed rules, like pulling the starter at a batters-faced target or always scoring a runner from second on a single. Each of those rules is now a model fitted on real play-by-play, and each one had to prove it made the predictions better before it went in.
 
 ## How it works
 
