@@ -39,6 +39,18 @@ flowchart LR
 
 The simulator plays both teams batter by batter. Before each batter it checks, in order: does the manager change pitchers (and if so, who comes in), has the batter's spot been pinch-hit, does a runner try to steal, and is there a wild pitch, passed ball, balk or pickoff. Then it draws the plate appearance, its pitch count and where the runners end up. After 10,000 games it has a full distribution for every player's stat line and the game result, so any line can be priced: over 1.5 total bases, under 5.5 strikeouts, the moneyline.
 
+### The plate appearance
+
+The core of the simulator is the plate-appearance model. Every PA ends in one of ten outcomes: strikeout, walk, hit by pitch, single, double, triple, home run, reached on error, ground out or air out. A multinomial logistic regression gives the chance of each one, starting from the batter's and pitcher's own rates and adjusting them for 17 factors:
+
+- **The matchup:** batter and pitcher platoon splits, how big the pitcher's platoon split should be given his release point and pitch mix, his pitch traits (velocity, movement, spin), and each player's last 30 days.
+- **The game situation:** runners on base, outs, score margin, inning, home or away, and who's on deck (pitchers work around a hitter when a weaker one is up next).
+- **The pitcher's workload:** times through the order, pitch count, and whether he's a starter or a reliever.
+- **Conditions:** temperature and wind.
+- **A pitcher correction:** how far his results have run from what the model expected over time.
+
+The starting rates blend preseason projections (Steamer and ZiPS) with each player's results over five windows from 30 days to three years. Batted balls count by their exit velocity and launch angle, not just whether they fell for hits, and the park and quality of opponents are taken out before the day's park and matchup go back in. An in-season tracker follows league-wide shifts, like a year when home runs are down. Against a player-average baseline, the model cuts plate-appearance log loss by 0.8% in 2025 and 1.0% in the first half of 2026.
+
 Every input is point-in-time: built as of the morning of the game from earlier dates only. I tested that by cutting all the stored data at a date, rebuilding, and checking the inputs matched the backtest's.
 
 The pieces and what each one added are in [docs/MODEL.md](docs/MODEL.md).
